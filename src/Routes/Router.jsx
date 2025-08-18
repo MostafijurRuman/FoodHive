@@ -2,8 +2,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-
-import Home from "../Pages/Home";
+import Home from '../Pages/Home'
 import HomeLayout from "../Layouts/HomeLayout";
 import ErrorPage from "../Pages/ErrorPage";
 import Login from "../Pages/Login";
@@ -23,7 +22,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home></Home> ,
+                element:<Home></Home> ,
             },
             {
                 path: "all-foods",

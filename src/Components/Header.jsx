@@ -21,6 +21,8 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
+ 
+  const Name = user?.displayName?.split(' ').pop() || user?.displayName;
 
   const handleLogout = async () => {
     try {
@@ -113,7 +115,7 @@ export default function Header() {
                     )}
                   </motion.div>
                   <span className="text-sm font-medium text-gray-700 max-w-20 truncate">
-                    {user.displayName || 'User'}
+                    {Name || 'User'}
                   </span>
                 </motion.button>
 

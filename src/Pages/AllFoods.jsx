@@ -1,4 +1,5 @@
-import useTitle from "../hooks/useTitle";
+import useTitle from "../Hooks/useTitle";
+
 
 const AllFoods = () => {
   useTitle("All Foods | FoodHive");

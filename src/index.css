@@ -71,3 +71,53 @@
 
   --focus-ring: 0 0 0 2px #60A5FA;
 }
+
+/* Home page components styles (migrated from src/Components/Home.css on 2025-08-18) */
+/* Custom styles for Home page carousel */
+.testimonials-swiper {
+  padding-bottom: 40px;
+}
+
+.testimonials-swiper .swiper-pagination {
+  bottom: 10px;
+}
+
+.testimonials-swiper .swiper-pagination-bullet {
+  background-color: var(--color-muted);
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+}
+
+.testimonials-swiper .swiper-pagination-bullet-active,
+.testimonials-swiper .swiper-pagination-bullet-active-custom {
+  background-color: #16A34A !important;
+  opacity: 1;
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Hero Swiper (Home page) scoped colors */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+  color: #16A34A;
+}
+
+.hero-swiper .swiper-button-next:hover,
+.hero-swiper .swiper-button-prev:hover {
+  color: #15803D;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background-color: #6B7280;
+  opacity: 0.6;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background-color: #16A34A !important;
+  opacity: 1;
+}
