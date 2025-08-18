@@ -56,8 +56,8 @@ const AuthProvider = ({ children }) => {
   // Show loading spinner while loading
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[var(--color-surface)]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)]"></div>
+      <div className="flex items-center justify-center h-screen bg-slate-50">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-green-600"></div>
       </div>
     );
   }

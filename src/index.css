@@ -1,2 +1,73 @@
+/* FoodHive — Tailwind v4 + DaisyUI theme tokens */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Tailwind and DaisyUI */
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Light theme (default) */
+@theme {
+  /* Fonts */
+  --font-heading: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Brand */
+  --color-primary: #16A34A;         /* Forest Green 600 */
+  --color-primary-hover: #15803D;   /* Forest Green 700 */
+  --color-accent: #F59E0B;          /* Saffron 500 */
+  --color-accent-hover: #D97706;    /* Saffron 600 */
+  --color-secondary: #14B8A6;       /* Teal 500 */
+
+  /* Neutrals */
+  --color-bg: #FFFFFF;              /* Background */
+  --color-surface: #F8FAFC;         /* Surface */
+  --color-surface-2: #EEF2F7;       /* Surface-2 */
+  --color-border: #E5E7EB;          /* Border */
+  --color-text: #111827;            /* Text Primary */
+  --color-muted: #6B7280;           /* Text Secondary */
+
+  /* Semantic */
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+
+  /* On-colors */
+  --color-on-primary: #FFFFFF;
+  --color-on-accent: #111827;
+
+  /* Effects */
+  --radius-sm: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 24px rgba(0,0,0,0.12);
+
+  /* Focus */
+  --focus-ring: 0 0 0 2px #2563EB;
+}
+
+/* Dark theme overrides (apply when <html class="dark"> or [data-theme="dark"]) */
+@theme .dark {
+  --color-bg: #0F172A;         /* Slate 900D */
+  --color-surface: #111827;    /* Slate 800D */
+  --color-surface-2: #1F2937;  /* Slate 700D */
+  --color-border: #334155;     /* Slate 600D */
+  --color-text: #F3F4F6;       /* Light Gray */
+  --color-muted: #CBD5E1;      /* Muted Gray */
+
+  --color-primary: #22C55E;    /* Forest Green 500D */
+  --color-accent: #FB923C;     /* Saffron 400D */
+  --color-secondary: #2DD4BF;  /* Teal 400D */
+
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #60A5FA;
+
+  --focus-ring: 0 0 0 2px #60A5FA;
+}
