@@ -1,4 +1,8 @@
+import useTitle from "../hooks/useTitle";
+
 const AllFoods = () => {
+  useTitle("All Foods | FoodHive");
+
   return (
     <div>
       <h1>All Foods Page</h1>

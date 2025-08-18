@@ -4,10 +4,13 @@ import { FaUser, FaEnvelope, FaImage, FaLock, FaEye, FaEyeSlash } from "react-ic
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContexts from "../Contexts/AuthContext";
+import useTitle from "../hooks/useTitle";
 
 
 
 export default function Register() {
+    useTitle("Register | FoodHive");
+    
     const [showPassword, setShowPassword] = useState(false);
     const [form, setForm] = useState({
         name: "",

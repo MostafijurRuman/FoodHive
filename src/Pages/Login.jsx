@@ -1,13 +1,15 @@
 
-
 import React, {useContext, useState } from "react";
 import {  NavLink} from "react-router-dom";
 import { MdEmail, MdLock } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import AuthContext from "../Contexts/AuthContext";
+import useTitle from "../hooks/useTitle";
 
 
 export default function Login() {
+    useTitle("Login | FoodHive");
+    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);

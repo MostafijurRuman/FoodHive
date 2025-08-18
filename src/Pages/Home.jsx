@@ -1,12 +1,10 @@
-import { Helmet } from "react-helmet";
-
+import useTitle from "../hooks/useTitle";
 
 export default function Home() {
+  useTitle("Home | FoodHive");
+
   return (
     <div>
-      <Helmet>
-        <title>Home | FoodHive</title>
-      </Helmet>
       <h3>This is Home page</h3>
     </div>
   )

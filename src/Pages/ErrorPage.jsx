@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link, useRouteError } from 'react-router-dom';
+import useTitle from '../hooks/useTitle';
 import { 
   FiHome, 
   FiRefreshCw, 
@@ -73,6 +74,9 @@ const ErrorPage = () => {
   };
 
   const errorDetails = getErrorDetails();
+  
+  // Set dynamic title based on error
+  useTitle(`Error ${errorDetails.code} | FoodHive`);
 
   const containerVariants = {
     hidden: { opacity: 0 },
