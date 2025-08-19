@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiSearch, FiTag, FiTrendingUp, FiMapPin, FiPackage } from 'react-icons/fi';
+import { FiTag, FiTrendingUp, FiMapPin, FiPackage,FiSearch } from 'react-icons/fi';
 import useTitle from '../hooks/useTitle';
 import axiosNormal from '../Api/AxiosNormal';
 const _MOTION = motion;
@@ -12,59 +12,38 @@ const AllFoods = () => {
   const [currentPage,setCurrentPage]=useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [query, setQuery] = useState('');
+  const [query,setQuery]=useState('')
 
-  useEffect(() => {
-    setLoading(true);
-    setError('');
-    axiosNormal
-      .get('/all-foods')
-      .then((res) => {
-        setAllFoods(res.data.length)
-      })
-      .catch((err) => {
-        console.error('Failed to load foods', err);
-        setError('Failed to load foods. Please try again.');
-      })
-      .finally(() => setLoading(false));
-      
-  }, []);
-// For Search option
-  const filtered = useMemo(() => {
-    if (!query.trim()) return foods;
-    const q = query.trim().toLowerCase();
-    return foods.filter((f) => (f.name || '').toLowerCase().includes(q));
-  }, [foods, query]);
+  
+  
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.4, staggerChildren: 0.06 } },
-  };
-  const item = {
-    hidden: { y: 16, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.35 } },
-  };
+ 
 // For Pagination
-  const foodPerPage = parseInt(9);
-  const totalPages = Math.ceil(allFoods / foodPerPage);
+  const limit = 9; //for show how many foods per page
+  const totalPages = Math.ceil(allFoods / limit);
   const pages = [...Array(totalPages).keys()]
-  const skip =(currentPage-1)*foodPerPage;
   
   useEffect(() => {
     setLoading(true);
     setError('');
-    axiosNormal
-      .get(`/all-foods-by-pagination?page=${currentPage}&limit=${foodPerPage}&skip=${skip}`)
-      .then(res => {
-        setFoods(res.data);
-      })
+    axiosNormal.get("/foods", {
+    params: {
+    page: currentPage,
+    limit: limit,
+    search: query,   // empty string = no search
+    }
+    })
+    .then(res => {
+      setFoods(res.data.filteredFood);
+      setAllFoods(res.data.total); // use for pagination buttons
+      console.log(res.data)
+    })
       .catch((err) => {
         console.error('Failed to load foods', err);
-        setError('Failed to load foods. Please try again.');
       })
       .finally(() => setLoading(false));
       
-  }, [currentPage, foodPerPage, skip]);
+  }, [currentPage, query]);
 
   const handelPrevious = () =>{
     if(currentPage > 1){
@@ -79,6 +58,15 @@ const AllFoods = () => {
     }
   }
   
+   // Framer Motion animation
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.4, staggerChildren: 0.06 } },
+  };
+  const item = {
+    hidden: { y: 16, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.35 } },
+  };
 
 
   return (
@@ -104,26 +92,25 @@ const AllFoods = () => {
       </section>
 
       {/* Search */}
-      <section className="bg-white py-6">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
-            <FiSearch className="text-gray-500 text-xl" />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              type="text"
-              placeholder="Search foods by name..."
-              className="w-full bg-transparent outline-none text-gray-800 placeholder:text-gray-400"
-              aria-label="Search foods by name"
-            />
+        <section className="bg-white py-6">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+          <FiSearch className="text-gray-500 text-xl" />
+          <input 
+            onChange={(e)=>setQuery(e.target.value)} 
+            type="search" 
+            className="w-full bg-transparent border-none outline-none text-gray-700 placeholder-gray-500" 
+            required 
+            placeholder="Search by name" 
+          />
+            </div>
+            {query && (
+          <p className="text-sm text-gray-500 mt-2">Showing results for "{query}"</p>
+            )}
           </div>
-          {query && (
-            <p className="text-sm text-gray-500 mt-2">Showing results for "{query}"</p>
-          )}
-        </div>
-      </section>
+        </section>
 
-      {/* Grid */}
+        {/* Grid */}
       <motion.section
         variants={container}
         initial="hidden"
@@ -132,28 +119,64 @@ const AllFoods = () => {
       >
         <div className="max-w-7xl mx-auto px-4">
           {/* States */}
-          {loading && foods.length === 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="rounded-2xl border border-gray-200 p-4 bg-white shadow-sm animate-pulse">
-                  <div className="h-40 bg-gray-200 rounded-lg mb-4" />
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-5/6 mb-1" />
-                  <div className="h-4 bg-gray-200 rounded w-1/3" />
+                {loading && foods.length === 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="rounded-2xl border border-gray-200 p-4 bg-white shadow-sm animate-pulse">
+                    <div className="h-40 bg-gray-200 rounded-lg mb-4" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                    <div className="h-4 bg-gray-200 rounded w-5/6 mb-1" />
+                    <div className="h-4 bg-gray-200 rounded w-1/3" />
+                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
-          {error && !loading && (
-            <div className="text-center text-red-600 font-medium">{error}</div>
-          )}
-          {!loading && !error && filtered.length === 0 && (
-            <div className="text-center text-gray-600">No foods found.</div>
-          )}
+                )}
+                
+                {error && !loading && (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="text-red-500 mb-4">
+                  <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Oops! Something went wrong</h3>
+                  <p className="text-gray-600 text-center max-w-md">{error}</p>
+                  <button 
+                  onClick={() => window.location.reload()} 
+                  className="mt-4 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                  >
+                  Try Again
+                  </button>
+                </div>
+                )}
+                
+                {!loading && !error && foods.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="text-gray-400 mb-4">
+                  <FiSearch className="w-16 h-16" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">No Foods Found</h3>
+                  <p className="text-gray-500 text-center max-w-md mb-6">
+                  {query 
+                    ? `We couldn't find any foods matching "${query}". Try adjusting your search.`
+                    : "No foods are available at the moment. Check back later!"
+                  }
+                  </p>
+                  {query && (
+                  <button 
+                    onClick={() => setQuery('')}
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                  >
+                    <FiPackage className="w-4 h-4" />
+                    Show All Foods
+                  </button>
+                  )}
+                </div>
+                )}
 
           {/* Cards */}
           <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" variants={container}>
-            {filtered.map((food) => {
+            {foods.map((food) => {
               const qty = food.quantityAvailable ?? 0;
               return (
                 <motion.div
@@ -209,11 +232,14 @@ const AllFoods = () => {
             })}
       </motion.div>
       {/* Pagination Button creation*/}
-      <div className="join flex justify-center  mt-12">
+      {!loading && !error && foods.length > 0 && allFoods > limit && (
+            <div className="join flex justify-center  mt-12">
         <button onClick={()=>handelPrevious()} disabled={currentPage === 1 || loading} className="join-item btn btn-outline">Previous</button>
-            {pages.map(page => <button onClick={()=>setCurrentPage(page+1)} className={`btn btn-square ${currentPage === page + 1 ? 'bg-green-600 text-white' : ''}`}>{page+1}</button>)}
+            {pages.map(page => <button key={page} onClick={()=>setCurrentPage(page+1)} className={`btn btn-square ${currentPage === page + 1 ? 'bg-green-600 text-white' : ''}`}>{page+1}</button>)}
         <button onClick={()=>handelNext()}  disabled={currentPage === totalPages || loading} className="join-item btn btn-outline">Next</button>
       </div>
+          )}
+      
 
         </div>
       </motion.section>
