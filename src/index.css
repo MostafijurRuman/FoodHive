@@ -121,3 +121,38 @@
   background-color: #16A34A !important;
   opacity: 1;
 }
+
+/* Toast notifications styling */
+.Toastify__toast--success {
+  background-color: #16A34A;
+  color: white;
+}
+
+.Toastify__toast--error {
+  background-color: #DC2626;
+  color: white;
+}
+
+.Toastify__toast--info {
+  background-color: #2563EB;
+  color: white;
+}
+
+.Toastify__toast--warning {
+  background-color: #F59E0B;
+  color: white;
+}
+
+.Toastify__progress-bar--success {
+  background-color: #15803D;
+}
+
+.Toastify__progress-bar--error {
+  background-color: #B91C1C;
+}
+
+.toast-custom {
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+}

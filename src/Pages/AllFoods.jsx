@@ -36,7 +36,6 @@ const AllFoods = () => {
     .then(res => {
       setFoods(res.data.filteredFood);
       setAllFoods(res.data.total); // use for pagination buttons
-      console.log(res.data)
     })
       .catch((err) => {
         console.error('Failed to load foods', err);
