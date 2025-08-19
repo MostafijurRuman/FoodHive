@@ -63,6 +63,7 @@ export default function Header() {
           <Link to="/" className="flex items-center space-x-2 group">
             <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center group-hover:bg-green-700 transition-colors duration-200">
               <span className="text-white font-bold text-lg font-heading">F</span>
+              {/* <img src="/public/foodfavicon.jpg" alt="" /> */}
             </div>
             <span className="text-xl font-bold text-gray-800 font-heading group-hover:text-green-600 transition-colors duration-200">
               FoodHive

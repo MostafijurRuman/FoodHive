@@ -1,13 +1,9 @@
-import useTitle from "../hooks/useTitle";
+import React from 'react'
 
-const Gallery = () => {
-  useTitle("Gallery | FoodHive");
-
+export default function Gallery() {
   return (
     <div>
-      <h1>Gallery Page</h1>
+      gallery
     </div>
-  );
-};
-
-export default Gallery;
+  )
+}
