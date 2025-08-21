@@ -8,7 +8,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);         // Store current user info
   console.log(user)
-  const [loading, setLoading] = useState(false);   // Track loading state during auth check
+  const [loading, setLoading] = useState(true);   // Track loading state during auth check - start with true
   const provider = new GoogleAuthProvider();
   // Monitor authentication state changes (login/logout)
   useEffect(() => {
