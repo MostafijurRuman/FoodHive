@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import app from '../Firebase/firebase.config';
 import AuthContext from '../Contexts/AuthContext';
+import axiosNormal from '../Api/AxiosNormal';
 
 const auth = getAuth(app);
 
@@ -11,15 +12,27 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);   // Track loading state during auth check - start with true
   const provider = new GoogleAuthProvider();
   // Monitor authentication state changes (login/logout)
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
-      setUser(loggedUser);    // Update user state
-      setLoading(false);      // Set loading to false once state is known
-    });
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
 
-    // Cleanup listener on component unmount
-    return () => unsubscribe();
-  }, []);
+    if (currentUser?.email) {
+      const user = { email: currentUser.email };
+      axiosNormal.post("/jwt", user, { withCredentials: true })
+        .then(res => console.log("Tokens set", res.data))
+        .catch(err => console.error("JWT error:", err));
+    } else {
+      axiosNormal.post("/logout", {}, { withCredentials: true })
+        .then(res => console.log("Logout", res.data))
+        .catch(err => console.error("Logout error:", err));
+    }
+
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
 	
 	//Your features here ...
     // Register new user with email and password
