@@ -13,6 +13,8 @@ import AddFood from "../Pages/AddFood";
 import MyOrders from "../Pages/MyOrders";
 import AllFoods from "../Pages/AllFoods";
 import Gallery from "../Pages/Gallery";
+import PrivateRoutes from "./PrivateRoutes";
+import FoodDetails from "../Pages/FoodDetails";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +28,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "all-foods",
-                element: <AllFoods></AllFoods>,
+                element:  <AllFoods></AllFoods>,
+            },
+            {
+                path: "/food-details/:id",
+                element: <FoodDetails></FoodDetails>,
+                loader: ({params})=>fetch(`http://localhost:5000/food/${params.id}`)
             },
             {
                 path: "gallery",
@@ -34,19 +41,19 @@ const router = createBrowserRouter([
             },
             {
                 path: "edit-profile",
-                element: <EditProfile></EditProfile>,
+                element: <PrivateRoutes><EditProfile></EditProfile></PrivateRoutes>,
             },
             {
                 path: "my-foods",
-                element: <MyFoods></MyFoods>,
+                element: <PrivateRoutes><MyFoods></MyFoods></PrivateRoutes>,
             },
             {
                 path: "add-food",
-                element: <AddFood></AddFood>,
+                element: <PrivateRoutes><AddFood></AddFood></PrivateRoutes>,
             },
             {
                 path: "my-orders",
-                element: <MyOrders></MyOrders>,
+                element: <PrivateRoutes><MyOrders></MyOrders></PrivateRoutes>,
             },
             {
                 path: "login",

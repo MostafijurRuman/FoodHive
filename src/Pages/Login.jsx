@@ -1,6 +1,6 @@
 
 import React, {useContext, useState } from "react";
-import {  NavLink} from "react-router-dom";
+import {  NavLink, useLocation, useNavigate} from "react-router-dom";
 import { MdEmail, MdLock } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import AuthContext from "../Contexts/AuthContext";
@@ -9,7 +9,8 @@ import useTitle from "../hooks/useTitle";
 
 export default function Login() {
     useTitle("Login | FoodHive");
-    
+    const location = useLocation();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ export default function Login() {
         setError(""); // Clear previous error
         try {
             await loginWithEmailPassword(email, password);
-            // navigate("/"); // Uncomment if you want to redirect on success
+             navigate(location?.state ? location.state : "/" );
         } catch (err) {
             // Remove "Firebase:" prefix from error message if present
             const cleanedMessage = err.message?.replace(/^Firebase:\s*/, "") || "Login failed. Please try again.";
@@ -32,6 +33,7 @@ export default function Login() {
 
     const handleGoogleLogin = () => {
         handelLoginWithGoogle();
+        navigate(location?.state ? location.state : "/" );
     };
 
     return (
