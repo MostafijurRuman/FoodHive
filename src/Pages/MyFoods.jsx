@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from "../Hooks/useAuth";
 import useTitle from "../hooks/useTitle";
 import useAxiosSecure from '../Api/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const _MOTION = motion; // ESLint workaround
 
@@ -82,18 +83,32 @@ const MyFoods = () => {
 
   // Handle delete food
   const handleDelete = async (foodId, foodName) => {
-    if (!window.confirm(`Are you sure you want to delete "${foodName}"?`)) {
-      return;
-    }
-
-    try {
-      await axiosSecure.delete(`/foods/${foodId}`);
-      toast.success('Food item deleted successfully!');
-      refetch(); // Refresh the list
-    } catch (error) {
-      console.error('Error deleting food:', error);
-      toast.error(error.response?.data?.message || 'Failed to delete food item');
-    }
+    Swal.fire({
+      title: `Delete "${foodName}"?`,
+      text: 'Are you sure you want to delete this food item? This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#16A34A', // Your green color
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        confirmButton: 'bg-green-600 text-white',
+        cancelButton: 'bg-gray-200 text-gray-700',
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosSecure.delete(`/food/${foodId}`);
+          toast.success('Food item deleted successfully!');
+          refetch(); // Refresh the list
+        } catch (error) {
+          console.error('Error deleting food:', error);
+          toast.error(error.response?.data?.message || 'Failed to delete food item');
+        }
+      }
+    });
   };
 
   // Loading component

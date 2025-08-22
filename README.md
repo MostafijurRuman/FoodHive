@@ -1,12 +1,57 @@
-# React + Vite
+# FoodHive 🍽️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, full-stack food delivery web app built with React, Vite, TailwindCSS, and Firebase. Designed for speed, scalability, and a delightful user experience.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Live Site Coming Soon!]
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React 19, Vite, TailwindCSS, DaisyUI, Framer Motion, React Router, SweetAlert2, Toastify, Swiper, Slick Carousel, Lightbox
+- **State/Data:** TanStack React Query, Axios
+- **Auth:** Firebase Authentication
+- **Backend:** Node , Express,  MongoDB (API integration)
+- **Utilities:** Moment.js, React Icons, ESLint
+
+## ✨ Features
+
+- Beautiful, responsive UI (mobile-first, glassmorphism, modern cards/tables)
+- Full CRUD for food items (add, edit, delete, view)
+- Secure authentication & protected routes
+- Order management: place, view, and track orders
+- SweetAlert2 for confirmations, Toastify for notifications
+- Animations with Framer Motion
+- Image carousels & lightbox for food galleries
+- Instant data updates with React Query
+- Accessibility & best practices
+
+## 📦 Scripts
+
+```bash
+npm run dev       # Start development server
+npm run build     # Build for production
+npm run preview   # Preview production build
+npm run lint      # Lint codebase
+```
+
+## 📚 How to Run Locally
+
+1. Clone the repo
+2. `cd food-hive-client`
+3. `npm install`
+4. `npm run dev`
+5. Update `.env` for Firebase and API endpoints
+
+## 🧑‍💻 Why Recruiters Love This Project
+
+- Real-world SPA architecture
+- Advanced React patterns (custom hooks, context, protected routes)
+- Modern UI/UX with TailwindCSS & DaisyUI
+- API integration, error handling, and optimistic updates
+- Job-ready code quality: ESLint, modular structure, clear naming
+- Demonstrates teamwork, scalability, and user-centric design
+
+## 📄 License
+
+MIT

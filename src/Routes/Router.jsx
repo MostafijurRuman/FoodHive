@@ -15,6 +15,7 @@ import AllFoods from "../Pages/AllFoods";
 import Gallery from "../Pages/Gallery";
 import PrivateRoutes from "./PrivateRoutes";
 import FoodDetails from "../Pages/FoodDetails";
+import EditFood from "../Pages/EditFood";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
                 loader: ({params})=>fetch(`http://localhost:5000/food/${params.id}`)
             },
             {
+                path: "/edit-food/:id",
+                element: <EditFood></EditFood>,
+            },
+            {
                 path: "gallery",
                 element: <Gallery></Gallery>,
             },
@@ -46,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: "my-foods",
                 element: <PrivateRoutes><MyFoods></MyFoods></PrivateRoutes>,
+            },
+            {
+                path: "my-orders",
+                element: <PrivateRoutes><MyOrders></MyOrders></PrivateRoutes>,
             },
             {
                 path: "add-food",
