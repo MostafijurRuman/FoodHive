@@ -16,6 +16,7 @@ import Gallery from "../Pages/Gallery";
 import PrivateRoutes from "./PrivateRoutes";
 import FoodDetails from "../Pages/FoodDetails";
 import EditFood from "../Pages/EditFood";
+import FoodPurchase from "../Pages/FoodPurchase";
 
 const router = createBrowserRouter([
     {
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/edit-food/:id",
-                element: <EditFood></EditFood>,
+                element: <PrivateRoutes><EditFood></EditFood></PrivateRoutes>,
+            },
+            {
+                path: "food-purchase",
+                element: <PrivateRoutes><FoodPurchase></FoodPurchase></PrivateRoutes>,
             },
             {
                 path: "gallery",

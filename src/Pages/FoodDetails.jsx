@@ -4,10 +4,9 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { 
   FiArrowLeft, FiShoppingCart, FiTag, FiPackage, FiMapPin, 
-  FiUser, FiCalendar, FiStar, FiHeart, FiShare2, FiClock,
+  FiUser, FiCalendar, FiStar, FiShare2, FiClock,
   FiCheckCircle, FiTrendingUp
 } from 'react-icons/fi';
-import axios from 'axios';
 
 import useAuth from "../Hooks/useAuth";
 import useTitle from "../hooks/useTitle";
@@ -18,10 +17,9 @@ export default function FoodDetails() {
   const food = useLoaderData();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  // Removed wishlist functionality
   const [quantity, setQuantity] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [modalLoading, setModalLoading] = useState(false);
+  // Removed purchase modal state
 
   useTitle(`${food?.name || 'Food Details'} | FoodHive`);
 
@@ -63,73 +61,15 @@ export default function FoodDetails() {
 
   // Handle purchase (open modal)
   const handlePurchase = () => {
-    if (!user) {
-      toast.error('Please login to purchase food items');
-      navigate('/login');
-      return;
-    }
-    if (user.uid === food.addedBy?.userId) {
-      toast.error('You cannot purchase your own food item');
-      return;
-    }
-    if (food.quantityAvailable < quantity) {
-      toast.error('Not enough quantity available');
-      return;
-    }
-    setShowModal(true);
+    // Navigate to FoodPurchase page, passing food info
+    navigate('/food-purchase', { state: { food } });
   };
 
   // Confirm purchase in modal
-  const confirmPurchase = async () => {
-    setModalLoading(true);
-    try {
-      // Create order object
-      const order = {
-        foodId: food._id,
-        food: {
-          image: food.image,
-          name: food.name,
-          price: food.price,
-          owner: food.addedBy?.name,
-          ownerEmail: food.addedBy?.email,
-          ownerImg: food.addedBy?.photoURL,
-        },
-        buyer: {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-        },
-        quantity,
-        totalPrice: food.price * quantity,
-        createdAt: new Date().toISOString(),
-      };
-      // Send order to backend (assume POST /orders)
-      await axios.post('http://localhost:5000/orders', order, { withCredentials: true });
-      // Update food quantity and purchaseCount
-      await axios.put(`http://localhost:5000/food/${food._id}/purchase`, {
-        quantity: quantity
-      }, { withCredentials: true });
-      toast.success('Purchase successful!');
-      setShowModal(false);
-      window.location.reload(); // Refresh to show updated data
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Purchase failed');
-    } finally {
-      setModalLoading(false);
-    }
-  };
+  // Removed confirmPurchase logic
 
   // Handle wishlist toggle
-  const handleWishlist = () => {
-    if (!user) {
-      toast.error('Please login to add to wishlist');
-      navigate('/login');
-      return;
-    }
-    
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
-  };
+  // Removed wishlist functionality
 
   // Handle share
   const handleShare = async () => {
@@ -177,7 +117,7 @@ export default function FoodDetails() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link 
-                to="/" 
+                to="/all-foods" 
                 className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
               >
                 <FiArrowLeft className="text-gray-600" />
@@ -189,16 +129,6 @@ export default function FoodDetails() {
             </div>
             
             <div className="flex items-center gap-2">
-              <button 
-                onClick={handleWishlist}
-                className={`p-2 rounded-lg transition-colors ${
-                  isWishlisted 
-                    ? 'bg-red-100 text-red-600' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-                }`}
-              >
-                <FiHeart className={isWishlisted ? 'fill-current' : ''} />
-              </button>
               <button 
                 onClick={handleShare}
                 className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
@@ -422,30 +352,6 @@ export default function FoodDetails() {
         </motion.div>
       </div>
 
-      {/* Purchase Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-2xl p-8 max-w-md w-full border border-green-600 relative">
-            <button onClick={() => setShowModal(false)} className="absolute top-3 right-3 text-gray-500 hover:text-green-600 text-xl font-bold">&times;</button>
-            <div className="flex flex-col items-center gap-4">
-              <img src={food.image} alt={food.name} className="w-32 h-32 object-cover rounded-xl border-2 border-green-200" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{food.name}</h2>
-              <div className="text-green-700 font-semibold text-lg mb-2">${food.price} x {quantity} = ${(food.price * quantity).toFixed(2)}</div>
-              <div className="text-sm text-gray-600 mb-2">Owner: {food.addedBy?.name} ({food.addedBy?.email})</div>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="font-medium">Quantity:</span>
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors" disabled={quantity <= 1 || modalLoading}>-</button>
-                <span className="w-12 text-center font-semibold">{quantity}</span>
-                <button onClick={() => setQuantity(Math.min(food.quantityAvailable, quantity + 1))} className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors" disabled={quantity >= food.quantityAvailable || modalLoading}>+</button>
-                <span className="text-xs text-gray-500">(Max: {food.quantityAvailable})</span>
-              </div>
-              <button onClick={confirmPurchase} disabled={modalLoading} className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl">
-                {modalLoading ? 'Processing...' : 'Confirm Purchase'}
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 }
