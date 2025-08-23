@@ -36,6 +36,19 @@ const MyOrders = () => {
     cacheTime: 5 * 60 * 1000,
   });
 
+  // Refetch orders when page becomes visible (user navigates back)
+  React.useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        refetch();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [refetch]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -100,7 +113,7 @@ const MyOrders = () => {
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <img src={order.food.ownerImg || '/foodfavicon.jpg'} alt={order.food.owner} className="w-8 h-8 rounded-full object-cover border" />
+                          <img src={order.food.ownerImg || '/foodhive.png'} alt={order.food.owner} className="w-8 h-8 rounded-full object-cover border" />
                           <div>
                             <div className="font-medium text-gray-900">{order.food.owner}</div>
                           </div>
@@ -131,7 +144,7 @@ const MyOrders = () => {
                     </div>
                   </div>
                   <div className="flex gap-3 items-center">
-                    <img src={order.food.ownerImg || '/public/foodfavicon.jpg'} alt={order.food.owner} className="w-7 h-7 rounded-full object-cover border" />
+                    <img src={order.food.ownerImg || '/foodhive.png'} alt={order.food.owner} className="w-7 h-7 rounded-full object-cover border" />
                     <span className="font-medium text-gray-900">{order.food.owner}</span>
                   </div>
                   <div className="flex flex-wrap gap-4 text-xs mt-2">

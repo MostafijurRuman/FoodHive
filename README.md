@@ -4,15 +4,33 @@ A modern, full-stack food delivery web app built with React, Vite, TailwindCSS, 
 
 ## 🚀 Live Demo
 
-[Live Site Coming Soon!]
+[Live Site](https://foodhivee.web.app) — PWA enabled!
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** React 19, Vite, TailwindCSS, DaisyUI, Framer Motion, React Router, SweetAlert2, Toastify, Swiper, Slick Carousel, Lightbox
 - **State/Data:** TanStack React Query, Axios
 - **Auth:** Firebase Authentication
-- **Backend:** Node , Express,  MongoDB (API integration)
+- **Backend:** Node, Express, MongoDB (API integration)
 - **Utilities:** Moment.js, React Icons, ESLint
+- **PWA:** Vite Plugin PWA
+
+### Main Packages Used
+
+- `@tanstack/react-query` — Data fetching & caching
+- `axios` — API requests
+- `firebase` — Auth & hosting
+- `framer-motion` — Animations
+- `moment` — Date formatting
+- `react` / `react-dom` — Core UI
+- `react-icons` — Icon library
+- `react-router-dom` — Routing
+- `react-toastify` — Notifications
+- `sweetalert2` — Confirmation dialogs
+- `tailwindcss` / `daisyui` — Styling
+- `swiper`, `slick-carousel`, `react-slick` — Carousels
+- `yet-another-react-lightbox` — Image lightbox
+- `vite-plugin-pwa` — Progressive Web App support
 
 ## ✨ Features
 

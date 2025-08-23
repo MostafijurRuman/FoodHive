@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://food-hive-server.vercel.app",
   withCredentials: true,
 });
 
@@ -16,7 +16,7 @@ const useAxiosSecure = () => {
   // Central logout handler with useCallback to prevent unnecessary re-renders
   const handleLogout = useCallback(async () => {
     try {
-      await axios.post("http://localhost:5000/logout", {}, { withCredentials: true });
+      await axios.post("https://food-hive-server.vercel.app/logout", {}, { withCredentials: true });
       localStorage.removeItem("user"); // optional
       await logout(); // logout in client also
       navigate("/login");
@@ -39,7 +39,7 @@ const useAxiosSecure = () => {
           originalRequest._retry = true;
           try {
             console.log("Attempting to refresh token...");
-            await axios.post("http://localhost:5000/refresh", {}, { withCredentials: true });
+            await axios.post("https://food-hive-server.vercel.app/refresh", {}, { withCredentials: true });
             console.log("Token refreshed successfully");
             // Retry the original request
             return axiosSecure(originalRequest);

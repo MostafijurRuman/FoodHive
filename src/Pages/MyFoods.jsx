@@ -22,10 +22,10 @@ const MyFoods = () => {
   
   // Fetch user's foods
   const fetchMyFoods = async () => {
-    if (!user?.uid) {
+    if (!user?.email) {
       throw new Error('User not authenticated');
     }
-    const response = await axiosSecure.get(`/my-foods/${user.uid}`);
+    const response = await axiosSecure.get(`/my-foods/${user.email}`);
     return response.data;
   };
 

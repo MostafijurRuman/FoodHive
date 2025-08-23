@@ -19,7 +19,6 @@ const AuthProvider = ({ children }) => {
     if (currentUser?.email) {
       const user = { email: currentUser.email };
       axiosNormal.post("/jwt", user, { withCredentials: true })
-        .then(res => console.log("Tokens set", res.data))
         .catch(err => console.error("JWT error:", err));
     } else {
       axiosNormal.post("/logout", {}, { withCredentials: true })

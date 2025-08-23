@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAuth from '../Hooks/useAuth';
@@ -52,7 +53,8 @@ export default function FoodPurchase() {
   }, [user]);
   // Expect food info passed via location.state
   const food = location.state?.food;
-  const [quantity, setQuantity] = useState(1);
+  // Use quantity from navigation state if provided
+  const [quantity, setQuantity] = useState(location.state?.quantity || 1);
   const [loading, setLoading] = useState(false);
 
   if (!food) {
@@ -105,8 +107,8 @@ export default function FoodPurchase() {
         totalPrice: food.price * quantity,
         createdAt: Date.now(),
       };
-      await axiosNormal.post('/orders', order, { withCredentials: true });
-      await axiosNormal.put(`/food/${food._id}/purchase`, { quantity }, { withCredentials: true });
+      await axios.post('https://food-hive-server.vercel.app/orders', order, { withCredentials: true });
+      await axios.put(`https://food-hive-server.vercel.app/food/${food._id}/purchase`, { quantity }, { withCredentials: true });
       toast.success('Purchase successful!');
       navigate('/my-orders');
     } catch (error) {
@@ -115,7 +117,6 @@ export default function FoodPurchase() {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-white to-green-200 flex items-center justify-center px-2 py-8">
       <div className="w-full max-w-4xl mx-auto">
@@ -145,6 +146,10 @@ export default function FoodPurchase() {
             <div>
               <label className="block text-gray-700 font-bold text-xs mb-1">Quantity</label>
               <input type="number" min={1} max={food.quantityAvailable} value={quantity} onChange={e => setQuantity(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border font-bold text-xs" required />
+            </div>
+            <div>
+              <label className="block text-gray-700 font-bold text-xs mb-1">Total Price</label>
+              <input type="text" value={`$${(food.price * quantity).toFixed(2)}`} readOnly className="w-full px-3 py-2 rounded-lg border bg-gray-100 font-bold text-xs" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>

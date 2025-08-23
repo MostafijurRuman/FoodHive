@@ -61,8 +61,12 @@ export default function FoodDetails() {
 
   // Handle purchase (open modal)
   const handlePurchase = () => {
-    // Navigate to FoodPurchase page, passing food info
-    navigate('/food-purchase', { state: { food } });
+    // Navigate to FoodPurchase page, passing food info and selected quantity if > 1
+    if (quantity > 1) {
+      navigate('/food-purchase', { state: { food, quantity } });
+    } else {
+      navigate('/food-purchase', { state: { food } });
+    }
   };
 
   // Confirm purchase in modal

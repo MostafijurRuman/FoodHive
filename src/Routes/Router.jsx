@@ -35,7 +35,7 @@ const router = createBrowserRouter([
             {
                 path: "/food-details/:id",
                 element: <FoodDetails></FoodDetails>,
-                loader: ({params})=>fetch(`http://localhost:5000/food/${params.id}`)
+                loader: ({params})=>fetch(`https://food-hive-server.vercel.app/food/${params.id}`)
             },
             {
                 path: "/edit-food/:id",
